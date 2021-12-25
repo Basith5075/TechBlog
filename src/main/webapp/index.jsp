@@ -1,5 +1,8 @@
+<%@page import="java.sql.Connection"%>
+<%@page import="com.tech.blog.helper.ConnectionProvider"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,20 +10,100 @@
 <title>TechBlog..</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link href="css/mystyle.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<h1>Hello World</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+      .banner-background{
+      clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 91%, 63% 100%, 22% 91%, 0 99%, 0 0);
+     }
+</style>
+ </head>
+<body>  
+<%@ include file="normal_navbar.jsp"%>
 
-  
-  
-   
+<!-- Banner -->
+<div class = "container-fluid p-0 m-0 mb-3 banner-background">
+	<div class="h-50 p-5 bg-light border rounded-3 primary-background">
+
+			<div class = "container">
+			<h3 class = "text-center display-3">Welcome to Tech Blog</h3>
+			<p >Welcome to Technical Blog, world of technology is waiting for you !!</p>
+			<p>A programming language is a formal language comprising a set of strings that produce various kinds of machine code output. Programming languages are one kind of computer language, and are used in computer programming to implement algorithms.
+			</p>
+			<p>Most programming languages consist of instructions for computers. There are programmable machines that use a set of specific instructions, rather than general programming languages. Since the early 1800s, programs have been used to direct the behavior of machines such as Jacquard looms, music boxes and player pianos.
+			</p>
+				      <button class="btn btn-outline-light btn-lg"> <span class="fa 	fa fa-user-plus"></span>  Start ! its Free</button>
+                    <a href="login_page.jsp" class="btn btn-outline-light btn-lg"> <span class="fa fa-user-circle fa-spin"></span>  Login</a>
+			</div>
+	</div>
+</div>
+
+<!-- Cards -->
+
+<div class = "container ">
+	<div class ="row mb-3">
+		<div class = "col-md-4">
+			<div class = "card">
+				<div class = "card-body">
+					<h5 class = "card-title">Java Programming</h5>	
+					<p class = "card-text">Some really quick examples to build java apps.</p>
+					<a href="#" class = "btn primary-background text-white">Read More</a>
+				</div>	
+			</div>
+		</div>
+			<div class = "col-md-4">
+			<div class = "card">
+				<div class = "card-body">
+					<h5 class = "card-title">Java Programming</h5>	
+					<p class = "card-text">Some really quick examples to build java apps.</p>
+					<a href="#" class = "btn primary-background text-white">Read More</a>
+				</div>	
+			</div>
+		</div>
+			<div class = "col-md-4">
+			<div class = "card">
+				<div class = "card-body">
+					<h5 class = "card-title">Java Programming</h5>	
+					<p class = "card-text">Some really quick examples to build java apps.</p>
+					<a href="#" class = "btn primary-background text-white">Read More</a>
+				</div>	
+			</div>
+		</div>
+	</div>
+	<div class ="row">
+		<div class = "col-md-4">
+			<div class = "card">
+				<div class = "card-body">
+					<h5 class = "card-title">Java Programming</h5>	
+					<p class = "card-text">Some really quick examples to build java apps.</p>
+					<a href="#" class = "btn primary-background text-white">Read More</a>
+				</div>	
+			</div>
+		</div>
+			<div class = "col-md-4">
+			<div class = "card">
+				<div class = "card-body">
+					<h5 class = "card-title">Java Programming</h5>	
+					<p class = "card-text">Some really quick examples to build java apps.</p>
+					<a href="#" class = "btn primary-background text-white">Read More</a>
+				</div>	
+			</div>
+		</div>
+			<div class = "col-md-4">
+			<div class = "card">
+				<div class = "card-body">
+					<h5 class = "card-title">Java Programming</h5>	
+					<p class = "card-text">Some really quick examples to build java apps.</p>
+					<a href="#" class = "btn primary-background text-white">Read More</a>
+				</div>	
+			</div>
+		</div>
+	</div>
+
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-<script type="text/javascript">
-/* 	$(document).ready(function(){
-		alert("document is ready")
-	}) */
-</script>
+<script src="js/myjs.js" type="text/javascript"></script>
 </body>
 </html>
