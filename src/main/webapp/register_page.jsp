@@ -22,50 +22,56 @@
 
     <div class = "container">
         
-        <div class="col-md-6 offset-3" >
+        <div class="col-md-6 offset-md-3" >
 
         
             <div class="card">
              <div class="card-header text-center primary-background text-white">
-                            <span class="fa fa-3x fa-user-circle"></span>
-                            <br>
-                            Register here
-                        </div>
+                  <span class="fa fa-3x fa-user-circle"></span>
+                   <br>
+                      Register here
+               </div>
                 <div class="card-body">
-					<form>
+					<form id="reg-form" action="RegisterServlet" method="POST">
 					 	<div class="form-group">
-                          <label for="name">User Name</label>
-                          <input type="text" class="form-control" id="name" aria-describedby="namehelp" placeholder="Enter Name">
+                          <label for="user_name">User Name</label>
+                          <input name = "user_name" type="text" class="form-control" id="user_name" aria-describedby="namehelp" placeholder="Enter Name">
                         </div>
                         
                         <div class="form-group">
-                          <label for="email">Email address</label>
-                          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                          <label for="user_email">Email address</label>
+                          <input name="user_email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        
                         </div>
                         
                         <div class="form-group">
                           <label for="password">Password</label>
-                          <input type="password" class="form-control" id="password" placeholder="Password">
+                          <input name = "user_password" type="password" class="form-control" id="password" placeholder="Password">
                         </div>
                  
         				 <div class="form-group">
                                     <label for="gender">Select Gender</label>
                                     <br>
-                                    <input type="radio"  id="gender" name="gender" value="male" >Male
-                                    <input type="radio"  id="gender" name="gender" value="famale">Female
+                                    <input type="radio"  id="gender" name="user_gender" value="Male" >Male
+                                    <input type="radio"  id="gender" name="user_gender" value="Female">Female
                          </div>
                                 
                          <div class="form-group">
 
-                                    <textarea name="about"  class="form-control" id=""  rows="5" placeholder="Enter something about yourself"></textarea>
+                                    <textarea name="user_about"  class="form-control" id=""  rows="5" placeholder="Enter something about yourself"></textarea>
 
                         </div>
                         <div class=" form-check">
-                          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                          <label class="form-check-label" for="exampleCheck1">Agree</label>
+                          <input name = "checkbox" type="checkbox" class="form-check-input" id="exampleCheck1">
+                          <label class="form-check-label" for="exampleCheck1">Agree Terms and Condition</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <br>
+                        <div class="container text-center" id="loader" style="display: none;">
+                                    <span class="fa fa-refresh fa-spin fa-4x"></span>
+                                    <h4>Please wait..</h4>
+                                </div>
+                        
+                        <button id = "submit-button"type="submit" class="btn btn-primary">Submit</button>
                     </form>
                
                 </div>
@@ -81,5 +87,54 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 <script src="js/myjs.js" type="text/javascript"></script>
+<!-- below is the sweet alert cdn link which need to be added in order to display the JS alert to the user as a response -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script>
+$(document).ready(function(){
+	console.log("loaded ....")
+
+	$('#reg-form').on('submit',function(event){
+		event.preventDefault();
+		let form = new FormData(this);
+		$("#submit-button").hide();
+		$("#loader").show();
+		//send register servlet:
+		$.ajax({
+			url:"RegisterServlet",
+			type:'POST',
+			data:form,
+			success:function(data,textStatus,jqXHR){
+				console.log(data)
+				$("#submit-button").show();
+				$("#loader").hide();
+				if (data.trim() === 'done')
+                {
+					/* swal is a JS alert which we are using to display the respone to the user For more on sweet alert visit < -- https://sweetalert.js.org/ -- >  */
+                    swal("Registered successfully..We are going to redirect to login page")
+                            .then((value) => {
+                                window.location = "login_page.jsp"
+                            });
+                } else
+                {
+                    swal(data);
+                }
+				
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$("#submit-button").show();
+				$("#loader").hide();
+				swal("something went wrong..try again");
+			},
+			 processData: false,
+             contentType: false
+			
+		});
+	});
+		
+});
+
+
+</script>
+
 </body>
 </html>
