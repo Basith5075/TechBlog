@@ -2,6 +2,7 @@ package com.tech.blog.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.ServletException;
@@ -12,9 +13,9 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import com.tech.blog.dao.UserDao;
+import com.tech.blog.entities.Message;
 import com.tech.blog.entities.User;
 import com.tech.blog.helper.ConnectionProvider;
-import com.tech.blog.helper.Message;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +28,11 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("user_email");
 		String password = request.getParameter("user_password");
 		
-		UserDao userDao = new UserDao(ConnectionProvider.getConnection());
+		UserDao userDao = new UserDao();
+		
+		Connection con = ConnectionProvider.getConnection();
+		userDao.setCon(con);
+		
 		User u = userDao.getUserByEmailAndPassword(email,password);
 		if(u != null) {
 			HttpSession session = request.getSession();
@@ -41,8 +46,6 @@ public class LoginServlet extends HttpServlet {
 			response.sendRedirect("login_page.jsp");
 			
 		}
-		
-		
 	}
 
 }

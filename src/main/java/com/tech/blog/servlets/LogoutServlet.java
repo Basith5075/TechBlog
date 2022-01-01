@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.tech.blog.helper.Message;
+import com.tech.blog.entities.Message;
 
 /**
  * Servlet implementation class LogoutServlet
@@ -25,5 +25,4 @@ public class LogoutServlet extends HttpServlet {
 		response.sendRedirect("login_page.jsp");
 		
 	}
-
 }

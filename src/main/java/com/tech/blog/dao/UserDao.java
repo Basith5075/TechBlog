@@ -12,9 +12,19 @@ public class UserDao {
 	private Connection con ;
 	boolean f = false;
 	public UserDao() {
-
 	}
 	
+	
+	public Connection getCon() {
+		return con;
+	}
+
+
+	public void setCon(Connection con) {
+		this.con = con;
+	}
+
+
 	public UserDao(Connection con) {
 		this.con = con;
 	}
@@ -40,7 +50,6 @@ public class UserDao {
 			
 			ptsmt.executeUpdate();
 			f= true;
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -68,13 +77,62 @@ public class UserDao {
 			user.setPassword(rs.getString("password"));
 			user.setGender(rs.getString("gender"));
 			user.setAbout(rs.getString("about"));
-			user.setProfile(rs.getString("profile"));			
+			user.setProfile(rs.getString("profile"));
+			user.setDateTime(rs.getTimestamp("rdate"));
 		}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+//	Method for updating the user
+	public boolean updateUser(User user) {
+		boolean f = false;
 		
+		try {
+		String query = "update user set name = ?, email = ?, password = ?, about = ?, profile = ? where id = ?";		
+		PreparedStatement ptsmt = con.prepareStatement(query);
+		ptsmt.setString(1, user.getName());
+		ptsmt.setString(2, user.getEmail());
+		ptsmt.setString(3, user.getPassword());
+		ptsmt.setString(4, user.getAbout());
+		ptsmt.setString(5, user.getProfile());
+		ptsmt.setInt(6, user.getId());
+		ptsmt.executeUpdate();
+		f = true;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
+		return f;
+	}
+	
+	// Method to retrive a user by its ID
+	public User getUserByID(int userID) {
+		User user = null;
+		try {
+			String query = "select * from user where id=?";
+			
+			PreparedStatement ptsmt = con.prepareStatement(query);
+			ptsmt.setInt(1, userID);
+			ResultSet rs = ptsmt.executeQuery();
+			
+			if(rs.next()) {
+				user = new User();
+				String user_name = rs.getString("name");
+				user.setName(user_name);
+				user.setId(rs.getInt("id"));
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setGender(rs.getString("gender"));
+				user.setAbout(rs.getString("about"));
+				user.setProfile(rs.getString("profile"));
+				user.setDateTime(rs.getTimestamp("rdate"));
+			} 
+		}
+			catch (Exception e) {
+				e.printStackTrace();
+		}
 		return user;
 		
 	}

@@ -1,4 +1,4 @@
-package com.tech.blog.helper;
+package com.tech.blog.entities;
 
 public class Message {
 	

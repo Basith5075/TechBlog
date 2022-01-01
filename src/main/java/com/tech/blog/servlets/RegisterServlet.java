@@ -2,6 +2,7 @@ package com.tech.blog.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -25,6 +26,11 @@ public class RegisterServlet extends HttpServlet {
     	response.setContentType("text/html");
     	PrintWriter out = response.getWriter();
     	
+    	UserDao userDao = new UserDao();
+		
+		Connection con = ConnectionProvider.getConnection();
+		userDao.setCon(con);
+    	
     	String check = request.getParameter("checkbox");
     	if(check==null) {
     		out.println("Please Accept License Agreement !!");
@@ -42,7 +48,6 @@ public class RegisterServlet extends HttpServlet {
 		
 		// Transferring the data stored into the User object to the UserDao
 		
-		UserDao userDao = new UserDao(ConnectionProvider.getConnection());
 		boolean res = userDao.saveUser(user);
 		if(res) {
 			out.println("done");
@@ -53,5 +58,6 @@ public class RegisterServlet extends HttpServlet {
     	
     	
 	}
+
     }
 }

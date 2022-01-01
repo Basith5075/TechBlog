@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="com.tech.blog.entities.Posts"%>
+<%@page import="com.tech.blog.dao.PostDao"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="com.tech.blog.helper.ConnectionProvider"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -15,7 +18,18 @@
       .banner-background{
       clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 91%, 63% 100%, 22% 91%, 0 99%, 0 0);
      }
+      .post-title{
+           	text-align: center;
+            font-weight:400;
+            font-size: 25px;
+            }
+            .post-content{
+            font-weight:100;
+            font-size: 18px;
+            }
+     
 </style>
+
  </head>
 <body>  
 <%@ include file="normal_navbar.jsp"%>
@@ -39,71 +53,38 @@
 
 <!-- Cards -->
 
-<div class = "container ">
+<div class = "container mt-5">
 	<div class ="row mb-3">
-		<div class = "col-md-4">
+	<%
+		PostDao postDao = new PostDao(ConnectionProvider.getConnection());
+		List<Posts> listPost = postDao.getAllPost();
+		int i =0;
+		for(Posts p:listPost){
+		i++;
+		if(i==10){return;}
+	%>
+		<div class = "col-md-4 my-3">
 			<div class = "card">
+				<div class= "card-header primary-background">
+				<h5 class = "card-title post-title"><%=p.getpTitle() %></h5>	
+				</div>
 				<div class = "card-body">
-					<h5 class = "card-title">Java Programming</h5>	
-					<p class = "card-text">Some really quick examples to build java apps.</p>
-					<a href="#" class = "btn primary-background text-white">Read More</a>
+					<img class="card-img-top my-2" style ="height: 200px" src="post_pics/<%= p.getpPic()%>" alt="Card image cap">
+					<p class = "card-text post-content"><%=p.getpContent() %></p>
 				</div>	
 			</div>
 		</div>
-			<div class = "col-md-4">
-			<div class = "card">
-				<div class = "card-body">
-					<h5 class = "card-title">Java Programming</h5>	
-					<p class = "card-text">Some really quick examples to build java apps.</p>
-					<a href="#" class = "btn primary-background text-white">Read More</a>
-				</div>	
-			</div>
-		</div>
-			<div class = "col-md-4">
-			<div class = "card">
-				<div class = "card-body">
-					<h5 class = "card-title">Java Programming</h5>	
-					<p class = "card-text">Some really quick examples to build java apps.</p>
-					<a href="#" class = "btn primary-background text-white">Read More</a>
-				</div>	
-			</div>
-		</div>
-	</div>
-	<div class ="row">
-		<div class = "col-md-4">
-			<div class = "card">
-				<div class = "card-body">
-					<h5 class = "card-title">Java Programming</h5>	
-					<p class = "card-text">Some really quick examples to build java apps.</p>
-					<a href="#" class = "btn primary-background text-white">Read More</a>
-				</div>	
-			</div>
-		</div>
-			<div class = "col-md-4">
-			<div class = "card">
-				<div class = "card-body">
-					<h5 class = "card-title">Java Programming</h5>	
-					<p class = "card-text">Some really quick examples to build java apps.</p>
-					<a href="#" class = "btn primary-background text-white">Read More</a>
-				</div>	
-			</div>
-		</div>
-			<div class = "col-md-4">
-			<div class = "card">
-				<div class = "card-body">
-					<h5 class = "card-title">Java Programming</h5>	
-					<p class = "card-text">Some really quick examples to build java apps.</p>
-					<a href="#" class = "btn primary-background text-white">Read More</a>
-				</div>	
-			</div>
-		</div>
-	</div>
-
+	<%
+		}
+	%>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 <script src="js/myjs.js" type="text/javascript"></script>
+
+
+
 </body>
 </html>

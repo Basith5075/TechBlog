@@ -1,28 +1,36 @@
-<%@page import="com.tech.blog.entities.Categories"%>
+<%@page import="com.tech.blog.dao.LikedDao"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.tech.blog.entities.Categories"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="com.tech.blog.dao.UserDao"%>
+<%@page import="com.tech.blog.entities.User"%>
+<%@page import="com.tech.blog.entities.Posts"%>
 <%@page import="com.tech.blog.helper.ConnectionProvider"%>
 <%@page import="com.tech.blog.dao.PostDao"%>
-<%@page import="com.tech.blog.entities.Message"%>
-<%@page import="com.tech.blog.entities.User"%>
 <%@page errorPage="error_page.jsp" %>
-<%
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%
 	User user = (User) session.getAttribute("currentUser");
 	String name =null ;
 	String email = null ;
 	if(user==null){
 		response.sendRedirect("login_page.jsp");
 	}
-		PostDao postDao = new PostDao(ConnectionProvider.getConnection());
-		ArrayList<Categories> al = postDao.getPostCategories();
+	PostDao postDao = new PostDao(ConnectionProvider.getConnection());
+	ArrayList<Categories> al = postDao.getPostCategories();
 %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%
+	int pid = Integer.parseInt(request.getParameter("pid"));
+	Posts p = postDao.getAllPostsByID(pid);
+	if(p==null){
+		out.println("No posts to display");
+		return;
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Profile Page</title>
-</head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link href="css/mystyle.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -30,13 +38,40 @@
             .banner-background{
              clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 91%, 63% 100%, 22% 91%, 0 99%, 0 0);
             }
+            .post-title{
+           	text-align: center;
+            font-weight:100;
+            font-size: 30px;
+            }
+            .post-content{
+            font-weight:100;
+            font-size: 20px;
+            }
+              .post-date{
+                font-style: italic;
+                font-weight: bold;
+            }
+             .post-user-info{
+                font-size: 20px;
+            }
+             .row-user{
+                border:1px solid #e2e2e2;
+                padding-top: 10px;
+            }
               body{
                 background:url(img/bg.jpeg);
                 background-size: cover;
                 background-attachment: fixed;
             }
+            
         </style>
+ 
+<meta charset="ISO-8859-1">
+<title><%= p.getpTitle() %></title>
+</head>
 <body>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v12.0" nonce="imdUeH75"></script>
 <!-- NavBar Start -->
 <nav class="navbar navbar-expand-lg navbar-dark primary-background">
   <div class="container-fluid ">
@@ -47,7 +82,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#"><span class="fa fa-bell-o"></span> Basith_Tech</a>
+          <a class="nav-link active" aria-current="page" href="profile_page.jsp"><span class="fa fa-bell-o"></span> Basith_Tech</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -85,64 +120,54 @@
 
 <!-- NavBar End -->
 
-<!-- Message displaying profile edit -->
-<div class = "container">
-	<div class = "row">
-				<%
-					Message msg = (Message)session.getAttribute("msg");
-					if(msg!=null){
-						
-						%>
-						<div class="alert <%=msg.getCssStyle() %>" role="alert">
-						  <%=msg.getContent() %>
-						</div>
+<!-- Main content of the post is shown here -->
+		<div class = "container">
+			<div class = "row my-4">
+				<div class = "col-md-8 offset-md-2" >
 					
-						<%
-						session.removeAttribute("msg");
-					}						
-					%>
-	</div>
-</div>
- 
- <!--main body of the page-->
- <main>
- 	<div class = "container">
- 		<div class = "row mt-4">
-			<div class = "col-md-4">
-				 <div class="list-group mt-4">
-				  <a href="#" id = "catDisp" onclick="getPosts(0,this)" class="list-group-item list-group-item-action active c-link" aria-current="true">
-				    All Posts
-				  </a>
-				  <%
-				// The below variable are declared in the top of the page, hence commented here just for the sake of understanding from where categories list is coming dynamically.
-/*       				PostDao postDao1 = new PostDao(ConnectionProvider.getConnection());
-      					ArrayList<Categories> al1 = postDao1.getPostCategories(); */
-      					for(Categories cat:al){
-      				%>
-      				  <a href="#" onclick="getPosts(<%= cat.getCid() %>,this)" class="list-group-item list-group-item-action c-link"><%=cat.getName() %></a>
-      				<%	
-      				}
-      				%>  
+					<div class = "card"> 
+						<div class = "card-header primary-background text-white">
+							 <h4 class="post-title"><%= p.getpTitle()%></h4>
+						</div>
+						<div class="card-body">
+						<img class="card-img-top my-2" src="post_pics/<%= p.getpPic()%>" alt="Card image cap">
+						  <div class="row my-3 row-user">
+						  		 <div class="col-md-8">
+						  	
+                    		 <% UserDao ud = new UserDao(ConnectionProvider.getConnection());%> 
+
+                                  <p class="post-user-info"> <a href="#!"> <%= ud.getUserByID(p.getUserID()).getName() %></a> has posted : </p>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <p class="post-date"> <%=  DateFormat.getDateTimeInstance().format(p.getpDate())%>  </p>
+                                </div>
+                           </div>
+                                 <p class="post-content"><%= p.getpContent()%></p> 
+                                    <br>
+                            		<br>
+                            	<div class="post-code">
+                                <pre><%= p.getpCode()%></pre>
+                            </div>
+						   </div>
+						   <%
+						   		LikedDao likeDao = new LikedDao(ConnectionProvider.getConnection());
 				
+						   %>
+						   <div class = "card-footer primary-background">
+						   		<a href="#" onclick="doLike(<%=p.getPid()%>,<%=user.getId()%>)" class = "btn btn-outline-light btn-sm"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><span class="like-counter-<%=p.getPid()%>"> <%=likeDao.countLikeOnPost(p.getPid()) %></span></a>
+							<a href="#!" class = "btn btn-outline-light btn-sm"><i class="fa fa-commenting-o" aria-hidden="true"></i></a>
+						  </div>
+						  	<div class = "card-footer">
+								<div class="fb-comments" data-href="http://localhost:1011/TechBlog/show_blog_page.jsp?pid=<%= p.getPid()%>" data-width="" data-numposts="5">Best test</div>
+							</div>
+					</div>
+	
 				</div>
- 			</div>
- 	  <div class="col-md-8" >
-                        <!--posts-->
-                        <div class="container text-center" id="loader">
-                            <i class="fa fa-refresh fa-4x fa-spin"></i>
-                            <h3 class="mt-2">Loading...</h3>
-                        </div>
-
-                        <div class="container-fluid" id="post-container">
-
-                        </div>
-         </div>
- 			
- 		</div>
- 	
- 	</div>
- </main>
-
+			</div>
+		</div>
+<!-- End of main content of the post -->
+	
 <!-- Modal For post -->
 <div class="modal fade" id="add-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -295,14 +320,11 @@
   </div>
 </div>
 
-<!--end of profile Modal End -->
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="js/myjs.js" type="text/javascript"></script>
+<script src="js/myjs.js"></script>
 
 <script>
 
@@ -365,35 +387,6 @@
 		
 	});
 </script>
-
- <!--Logic for loading posts using ajax-->
- 
- <script>
-
- function getPosts(cid,temp) {
-	 
-     $("#loader").show();
-     $("#post-container").hide()
-     $(".c-link").removeClass('active')
-     $.ajax({
-         url: "load_posts.jsp",
-         data:{cid,cid},
-         success: function (data, textStatus, jqXHR) {
-             console.log(data);
-             $("#loader").hide();
-             $("#post-container").show();
-             $('#post-container').html(data);
-             $(temp).addClass('active');
-         }
-     })
- }
- $(document).ready(function (e) {
-	  let allPostRef = $('.c-link')[0];
-		 getPosts(0,allPostRef);
- });
- 
- </script>
-
-
 </body>
+
 </html>

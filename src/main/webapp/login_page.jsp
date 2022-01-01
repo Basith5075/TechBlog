@@ -1,4 +1,4 @@
-<%@page import="com.tech.blog.helper.Message"%>
+<%@page import="com.tech.blog.entities.Message"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -51,10 +51,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Password</label>
-                                        <input name="user_password" required type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                        <input name="user_password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                                     </div>
 
-                                    <div class="container text-center">
+                                    <div class="container text-center mt-2">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </form>

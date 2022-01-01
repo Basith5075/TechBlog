@@ -1,5 +1,7 @@
 package com.tech.blog.entities;
 
+import java.sql.Timestamp;
+
 public class User {
 	private int id;
 	private String name;
@@ -8,6 +10,7 @@ public class User {
 	private String gender;
 	private String about;
 	private String profile;
+	private Timestamp dateTime;
 
 	public User(String name, String email, String password, String gender, String about) {
 		this.name = name;
@@ -69,7 +72,12 @@ public class User {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-	
+	public Timestamp getDateTime() {
+		return dateTime;
+	}
+	public void setDateTime(Timestamp dateTime) {
+		this.dateTime = dateTime;
+	}
 	
 	
 }

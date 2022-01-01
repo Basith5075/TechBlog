@@ -35,25 +35,25 @@
 					<form id="reg-form" action="RegisterServlet" method="POST">
 					 	<div class="form-group">
                           <label for="user_name">User Name</label>
-                          <input name = "user_name" type="text" class="form-control" id="user_name" aria-describedby="namehelp" placeholder="Enter Name">
+                          <input name = "user_name" type="text" class="form-control" id="user_name" aria-describedby="namehelp" placeholder="Enter Name" required>
                         </div>
                         
                         <div class="form-group">
                           <label for="user_email">Email address</label>
-                          <input name="user_email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                          <input name="user_email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
                         
                         </div>
                         
                         <div class="form-group">
                           <label for="password">Password</label>
-                          <input name = "user_password" type="password" class="form-control" id="password" placeholder="Password">
+                          <input name = "user_password" type="password" class="form-control" id="password" placeholder="Password" required>
                         </div>
                  
         				 <div class="form-group">
                                     <label for="gender">Select Gender</label>
                                     <br>
-                                    <input type="radio"  id="gender" name="user_gender" value="Male" >Male
-                                    <input type="radio"  id="gender" name="user_gender" value="Female">Female
+                                    <input type="radio"  id="gender" name="user_gender" value="Male" required>Male
+                                    <input type="radio"  id="gender" name="user_gender" value="Female" required>Female
                          </div>
                                 
                          <div class="form-group">
