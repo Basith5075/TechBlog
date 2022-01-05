@@ -30,8 +30,21 @@
 					<img class="card-img-top" src="post_pics/<%= p.getpPic()%>" alt="Card image cap">
 						<div class = "card-body">
 							<h5> <%=p.getpTitle() %> </h5>
-							<p> <%=p.getpContent() %> </p>
-							<pre><%=p.getpCode() %></pre>
+							<% 
+								if(p.getpContent().length()>300){
+									
+									%>
+									<p> <%=p.getpContent().substring(0,300) %> </p>
+									
+								<%
+								}else{
+									%>
+									<p> <%=p.getpContent()%> </p>
+									<% 
+									
+								}
+							%>
+						<%-- 	<pre><%=p.getpCode()%></pre> --%>
 						</div>
 						<%
 						   		LikedDao likeDao = new LikedDao(ConnectionProvider.getConnection());
